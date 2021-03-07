@@ -1,0 +1,4 @@
+D:\GitHub\MISA.Fresher2021_02\MF749-LCQUYEN\lcquyen\Api\MISA.CukCuk\MISA.Common\obj\Debug\netcoreapp3.1\MISA.Common.csprojAssemblyReference.cache
+D:\GitHub\MISA.Fresher2021_02\MF749-LCQUYEN\lcquyen\Api\MISA.CukCuk\MISA.Common\obj\Debug\netcoreapp3.1\MISA.Common.AssemblyInfoInputs.cache
+D:\GitHub\MISA.Fresher2021_02\MF749-LCQUYEN\lcquyen\Api\MISA.CukCuk\MISA.Common\obj\Debug\netcoreapp3.1\MISA.Common.AssemblyInfo.cs
+D:\GitHub\MISA.Fresher2021_02\MF749-LCQUYEN\lcquyen\Api\MISA.CukCuk\MISA.Common\obj\Debug\netcoreapp3.1\MISA.Common.csproj.CoreCompileInputs.cache
