@@ -27,17 +27,18 @@ namespace MISA.CukCuk.Api.Services
 
         /// <summary>
         /// Kiểm tra khóa chính đã tồn tại trong db hay chưa
+        /// CreatedBy: LCQUYEN (28/02/2021)
         /// </summary>
         /// <param name="customerId">Khóa chính cần kiểm tra</param>
         /// <returns>
         /// true: đã tồn tại
         /// false: chưa tồn tại
         /// </returns>
-        public bool CheckCustomerIdExits(Guid customerId)
+        public bool CheckCustomerIdExits(string customerId)
         {
             IDbConnection dbConnection = new MySqlConnection(connString);
             var sql = $"SELECT CustomerId FROM Customer AS c WHERE c.CustomerId='{customerId}'";
-            var customerIdExits = dbConnection.Query<Guid>(sql).FirstOrDefault();
+            var customerIdExits = dbConnection.Query<string>(sql).FirstOrDefault();
             if (customerIdExits != null)
             {
                 return true;
@@ -49,6 +50,7 @@ namespace MISA.CukCuk.Api.Services
         }
         /// <summary>
         /// Kiểm tra mã khách hàng đã tồn tại trong db hay chưa
+        /// CreatedBy: LCQUYEN (28/02/2021)
         /// </summary>
         /// <param name="customerCode">Mã khách hàng cần kiểm tra</param>
         /// <returns>
@@ -72,6 +74,7 @@ namespace MISA.CukCuk.Api.Services
 
         /// <summary>
         /// Kiểm tra số điện thoại đã tồn tại trong db hay chưa
+        /// CreatedBy: LCQUYEN (28/02/2021)
         /// </summary>
         /// <param name="phoneNumber">Số điện thoại cần kiểm tra</param>
         /// <returns>
@@ -95,6 +98,7 @@ namespace MISA.CukCuk.Api.Services
 
         /// <summary>
         /// Kiểm tra mã thẻ thành viên đã tồn tại trong db hay chưa
+        /// CreatedBy: LCQUYEN (28/02/2021)
         /// </summary>
         /// <param name="memberCardCode">Mã thẻ thành viên cần kiểm tra</param>
         /// <returns>
@@ -117,6 +121,7 @@ namespace MISA.CukCuk.Api.Services
         }
         /// <summary>
         /// Service thêm mới khách hàng
+        /// CreatedBy: LCQUYEN (28/02/2021)
         /// </summary>
         /// <param name="customer">Khách hàng thêm mới</param>
         /// <returns>Số bản ghi thêm mới thành công hoặc thất bại</returns>
@@ -191,15 +196,15 @@ namespace MISA.CukCuk.Api.Services
             var res = dbConnection.Execute("Proc_InsertCustomer", param: customer, commandType: CommandType.StoredProcedure);
             if (res > 0)
             {
-                errorMsg.devMsg = $"Add sussess '{res}'";
-                errorMsg.userMsg = $"Thêm mới thành công '{res}' bản ghi";
+                errorMsg.devMsg = $"Add sussess {res}";
+                errorMsg.userMsg = $"Thêm mới thành công {res} bản ghi";
                 serviceResult.Sussess = true;
                 serviceResult.Data = errorMsg;
                 return serviceResult;
             }
             else
             {
-                errorMsg.devMsg = $"Add failed '{res}'";
+                errorMsg.devMsg = $"Add failed {res}";
                 errorMsg.userMsg = "Thêm mới thất bại ";
                 serviceResult.Sussess = false;
                 serviceResult.Data = errorMsg;
@@ -209,6 +214,7 @@ namespace MISA.CukCuk.Api.Services
         }
         /// <summary>
         /// Service sửa thông tin khách hàng
+        /// CreatedBy: LCQUYEN (28/02/2021)
         /// </summary>
         /// <param name="customer">Thông tin khách hàng chỉnh sửa</param>
         /// <returns>Số bản ghi cập nhật thành công hoặc thất bại</returns>
@@ -217,21 +223,23 @@ namespace MISA.CukCuk.Api.Services
             IDbConnection dbConnection = new MySqlConnection(connString);
             var errorMsg = new ErrorMsg();
             var serviceResult = new ServiceResult();
-            var customerId = CheckCustomerIdExits(customer.CustomerId);
+            var customerIdCheck = customer.CustomerId;
+            var customerId = CheckCustomerIdExits(customerIdCheck.ToString());
        //     var customerCode = CheckCustomerCodeExits(customer.CustomerCode);
             if(customerId == true)
             {
-               var sqlUpdate = $"UPDATE Customer SET FullName='{customer.FullName}' AND Gender='{customer.Gender}' AND CustomerGroupId='{customer.CustomerGroupId}'" +
-               $"AND PhoneNumber = '{customer.PhoneNumber}' AND DateOfBirth = '{customer.DateOfBirth}' " +
-               $"AND CompanyName = '{customer.CompanyName}' AND CompanyTaxCode = '{customer.CompanyTaxCode}'" +
-               $"AND Address = '{customer.Address}' AND Note = '{customer.Note}' AND ModifiedDate = {customer.ModifiedDate}" +
-               $"AND ModifiedBy = '{customer.ModifiedBy}'" +
+            /*   var sqlUpdate = $"UPDATE Customer SET CustomerCode='{customer.CustomerCode}' AND FullName='{customer.FullName}' AND Gender='{customer.Gender}' AND MemberCardCode='{customer.MemberCardCode}'" +
+               $"AND CustomerGroupId='{customer.CustomerGroupId}' AND PhoneNumber = '{customer.PhoneNumber}' AND DateOfBirth = '{customer.DateOfBirth}' " +
+               $"AND CompanyName = '{customer.CompanyName}' AND CompanyTaxCode = '{customer.CompanyTaxCode}' AND Email='{customer.Email}'" +
+               $"AND Address = '{customer.Address}' AND Note = '{customer.Note}' AND CreatedDate='{customer.CreatedDate}' AND CreatedBy='{customer.CreatedBy}' AND ModifiedDate = {customer.ModifiedDate}" +
+               $"AND ModifiedBy = '{customer.ModifiedBy}'" +    
                $"WHERE CustomerId = '{customer.CustomerId}'";
-               var res = dbConnection.Execute(sqlUpdate, param: customer, commandType: CommandType.Text);           
+            */
+               var res = dbConnection.Execute("Proc_UpdateCustomer", param: customer, commandType: CommandType.StoredProcedure);           
                if (res > 0)
                 {
-                    errorMsg.devMsg = $"Update sussess '{res}'";
-                    errorMsg.userMsg = $"Sửa thành công '{res}' bản ghi";
+                    errorMsg.devMsg = $"Update sussess {res}";
+                    errorMsg.userMsg = $"Sửa thành công {res} bản ghi";
                     serviceResult.Sussess = true;
                     serviceResult.Data = errorMsg;
                     return serviceResult;

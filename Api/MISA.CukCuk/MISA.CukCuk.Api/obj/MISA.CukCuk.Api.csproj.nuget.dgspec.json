@@ -1,21 +1,25 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\LCQUYEN\\source\\MISA.CukCuk\\Misa.CukCuk\\Api\\MISA.CukCuk\\MISA.CukCuk.Api\\MISA.CukCuk.Api.csproj": {}
+    "D:\\GitHub\\MISA.Fresher2021_02\\MF749-LCQUYEN\\MISA.CukCuk\\Misa.CukCuk\\Api\\MISA.CukCuk\\MISA.CukCuk.Api\\MISA.CukCuk.Api.csproj": {}
   },
   "projects": {
-    "C:\\Users\\LCQUYEN\\source\\MISA.CukCuk\\Misa.CukCuk\\Api\\MISA.CukCuk\\MISA.CukCuk.Api\\MISA.CukCuk.Api.csproj": {
+    "D:\\GitHub\\MISA.Fresher2021_02\\MF749-LCQUYEN\\MISA.CukCuk\\Misa.CukCuk\\Api\\MISA.CukCuk\\MISA.CukCuk.Api\\MISA.CukCuk.Api.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\LCQUYEN\\source\\MISA.CukCuk\\Misa.CukCuk\\Api\\MISA.CukCuk\\MISA.CukCuk.Api\\MISA.CukCuk.Api.csproj",
+        "projectUniqueName": "D:\\GitHub\\MISA.Fresher2021_02\\MF749-LCQUYEN\\MISA.CukCuk\\Misa.CukCuk\\Api\\MISA.CukCuk\\MISA.CukCuk.Api\\MISA.CukCuk.Api.csproj",
         "projectName": "MISA.CukCuk.Api",
-        "projectPath": "C:\\Users\\LCQUYEN\\source\\MISA.CukCuk\\Misa.CukCuk\\Api\\MISA.CukCuk\\MISA.CukCuk.Api\\MISA.CukCuk.Api.csproj",
-        "packagesPath": "C:\\Users\\LCQUYEN\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\LCQUYEN\\source\\MISA.CukCuk\\Misa.CukCuk\\Api\\MISA.CukCuk\\MISA.CukCuk.Api\\obj\\",
+        "projectPath": "D:\\GitHub\\MISA.Fresher2021_02\\MF749-LCQUYEN\\MISA.CukCuk\\Misa.CukCuk\\Api\\MISA.CukCuk\\MISA.CukCuk.Api\\MISA.CukCuk.Api.csproj",
+        "packagesPath": "C:\\Users\\ADMIN\\.nuget\\packages\\",
+        "outputPath": "D:\\GitHub\\MISA.Fresher2021_02\\MF749-LCQUYEN\\MISA.CukCuk\\Misa.CukCuk\\Api\\MISA.CukCuk\\MISA.CukCuk.Api\\obj\\",
         "projectStyle": "PackageReference",
+        "fallbackFolders": [
+          "C:\\Microsoft\\Xamarin\\NuGet\\"
+        ],
         "configFilePaths": [
-          "C:\\Users\\LCQUYEN\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+          "C:\\Users\\ADMIN\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
         "originalTargetFrameworks": [
           "net5.0"
