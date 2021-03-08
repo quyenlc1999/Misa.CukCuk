@@ -46,55 +46,30 @@ namespace MISA.CukCuk.Api.Controllers
         [HttpPost]
         public IActionResult PostCustomer(Customer customer)
         {
-            //Khai báo chuỗi kết nối CSDL
-            var connString = @"Host=47.241.69.179; Port=3306; Database=MF749_LCQUYEN_CukCuk; User Id=dev; Password=12345678";
-            //Khởi tạo đối tượng kết nối
-            IDbConnection dbConnection = new MySqlConnection(connString);
-            var errorMsg = new ErrorMsg();
-            // Validate dữ liệu bắt buộc nhập
-            if(customer.CustomerCode == null)
+            var customerService = new CustomerService();
+            var customerInsert = customerService.InsertCustomer(customer);
+            if (customerInsert.Sussess == true && customerInsert.Data != null)
             {
-                return StatusCode(404, "Bạn phải nhập thông tin mã khách hàng");
-            }
-            // Validate dữ liệu không được phép trùng
-            // - kiểm tra mã khách hàng tồn tại trong db chưa ?
-            var sql = $"SELECT CustomerCode FROM Customer AS c WHERE c.CustomerCode='{customer.CustomerCode}'";
-            var customerCode = dbConnection.Query<string>(sql).FirstOrDefault();
-            if(customerCode != null)
-            {
-                errorMsg.devMsg = "Database thiết lập Unique cho mã khách hàng";
-                errorMsg.userMsg = "Mã khách hàng không được phép trùng";
-                return StatusCode(400, errorMsg);
-            }
-            //-Kiểm tra số điện thoại tồn tại trong database chưa ?
-            var sqlPhoneNumber = $"SELECT PhoneNumber FROM Customer AS c WHERE c.PhoneNumber='{customer.PhoneNumber}'";
-            var phoneNumber = dbConnection.Query<String>(sqlPhoneNumber).FirstOrDefault();  
-            if(phoneNumber != null) {
-                errorMsg.devMsg = "Database thiết lập Unique cho số điện thoại";
-                errorMsg.userMsg = "Số điện thoại đã tồn tại trong sơ sở dữ liệu";
-                return StatusCode(400, errorMsg);
-            }
-
-         var sqlInsertCustomer = $"INSERT INTO Customer (CustomerId,CustomerCode, FullName," +
-                $" Gender, MemberCardCode, CustomerGroupId, PhoneNumber, DateOfBirth, CompanyName, " +
-                $"CompanyTaxCode, Email, Address, Note, CreatedDate, CreatedBy, ModifiedDate, ModifiedBy)" +
-                $" VALUE('{customer.CustomerId}','{customer.CustomerCode}','{customer.FullName}'," +
-                $"'{customer.Gender}','{customer.MemberCardCode}','{customer.CustomerGroupId}'," +
-                $"'{customer.PhoneNumber}','{customer.DateOfBirth}','{customer.CompanyName}','{customer.CompanyTaxCode}'," +
-                $"'{customer.Email}','{customer.Address}','{customer.Note}','{customer.CreatedDate}','{customer.CreatedBy}'," +
-                $"'{customer.ModifiedDate}', '{customer.ModifiedBy}')";
- 
-            //Thực thi câu lệnh truy vấn    
-            var res = dbConnection.Execute("Proc_InsertCustomer", param:customer,commandType:CommandType.StoredProcedure);
-            if (res > 0)
-            {
-                return StatusCode(201, res);
+                return StatusCode(201, customerInsert);
             }
             else
             {
-                return StatusCode(200, "Không có bản ghi nào được thêm mới!");
+                return StatusCode(204, customerInsert);
             }
-             //    return Ok(1);
+        }
+        [HttpPut]
+        public IActionResult PutCustomer(Customer customer)
+        {
+            var customerService = new CustomerService();
+            var customerUpdate = customerService.UpdateCustomer(customer);
+            if(customerUpdate.Sussess == true && customerUpdate.Data != null)
+            {
+                return StatusCode(200, customerUpdate);
+            }
+            else
+            {
+                return StatusCode(404, customerUpdate);
+            }
         }
     }
 }

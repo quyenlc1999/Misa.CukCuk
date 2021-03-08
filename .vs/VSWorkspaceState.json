@@ -1,10 +1,11 @@
 {
   "ExpandedNodes": [
     "",
-    "\\Api",
     "\\Api\\MISA.CukCuk",
     "\\Api\\MISA.CukCuk\\MISA.CukCuk.Api",
-    "\\Api\\MISA.CukCuk\\MISA.CukCuk.Api\\Controllers"
+    "\\Api\\MISA.CukCuk\\MISA.CukCuk.Api\\Controllers",
+    "\\MISA.Common"
   ],
+  "SelectedNode": "\\Api",
   "PreviewInSolutionExplorer": false
 }
