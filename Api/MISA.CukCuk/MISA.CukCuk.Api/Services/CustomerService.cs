@@ -34,11 +34,14 @@ namespace MISA.CukCuk.Api.Services
         /// true: đã tồn tại
         /// false: chưa tồn tại
         /// </returns>
-        public bool CheckCustomerIdExits(string customerId)
+        public bool CheckCustomerIdExits(Guid customerId)
         {
             IDbConnection dbConnection = new MySqlConnection(connString);
-            var sql = $"SELECT CustomerId FROM Customer AS c WHERE c.CustomerId='{customerId}'";
-            var customerIdExits = dbConnection.Query<string>(sql).FirstOrDefault();
+            // var sql = $"SELECT CustomerId FROM Customer AS c WHERE c.CustomerId='{customerId}'";
+            DynamicParameters dynamicParameters = new DynamicParameters();
+            dynamicParameters.Add("@CustomerId", customerId);
+            //var customerIdExits = dbConnection.Query<Guid>(sql,commandType: CommandType.Text).FirstOrDefault();
+            var customerIdExits = dbConnection.Query<string>("Proc_CheckCustomerIdExit",param:dynamicParameters, commandType:CommandType.StoredProcedure).FirstOrDefault();
             if (customerIdExits != null)
             {
                 return true;
@@ -224,9 +227,10 @@ namespace MISA.CukCuk.Api.Services
             var errorMsg = new ErrorMsg();
             var serviceResult = new ServiceResult();
             var customerIdCheck = customer.CustomerId;
-            var customerId = CheckCustomerIdExits(customerIdCheck.ToString());
-       //     var customerCode = CheckCustomerCodeExits(customer.CustomerCode);
-            if(customerId == true)
+            var customerId = CheckCustomerIdExits(customerIdCheck);
+            //   var customerId = CheckCustomerIdExits(customerIdCheck.ToString());
+            //     var customerCode = CheckCustomerCodeExits(customer.CustomerCode);
+            if (customerId == true)
             {
             /*   var sqlUpdate = $"UPDATE Customer SET CustomerCode='{customer.CustomerCode}' AND FullName='{customer.FullName}' AND Gender='{customer.Gender}' AND MemberCardCode='{customer.MemberCardCode}'" +
                $"AND CustomerGroupId='{customer.CustomerGroupId}' AND PhoneNumber = '{customer.PhoneNumber}' AND DateOfBirth = '{customer.DateOfBirth}' " +
@@ -255,11 +259,49 @@ namespace MISA.CukCuk.Api.Services
             }
             else
             {
-                 errorMsg.devMsg = "CustomerId and CustomerCode not exit";
+                 errorMsg.devMsg = "CustomerId not exit in database";
                  errorMsg.userMsg = "Mâ khách hàng không tồn tại.";
                  serviceResult.Sussess = false;
                  serviceResult.Data = errorMsg;
                  return serviceResult;
+            }
+        }
+
+        public ServiceResult DeleteCustomer(Guid customerId)
+        {
+            IDbConnection dbConnection = new MySqlConnection(connString);
+            var errorMsg = new ErrorMsg();
+            var serviceResult = new ServiceResult();
+            //var customerIdCheck = customerId;
+            var customerIdExit = CheckCustomerIdExits(customerId);
+            if (customerIdExit == true)
+            {
+                var sqlDeleteCustomer = $"DELETE FROM Customer WHERE CustomerId = '{customerId}'";
+                var res = dbConnection.Execute(sqlDeleteCustomer,commandType: CommandType.Text);
+                if (res > 0)
+                {
+                    errorMsg.devMsg = $"Delete sussess {res}";
+                    errorMsg.userMsg = $"Xóa thành công {res} bản ghi";
+                    serviceResult.Sussess = true;
+                    serviceResult.Data = errorMsg;
+                    return serviceResult;
+                }
+                else
+                {
+                    errorMsg.devMsg = "Delete failed";
+                    errorMsg.userMsg = "Xóa thất bại ";
+                    serviceResult.Sussess = false;
+                    serviceResult.Data = errorMsg;
+                    return serviceResult;
+                }
+            }
+            else
+            {
+                errorMsg.devMsg = "CustomerId not exit in database";
+                errorMsg.userMsg = "Mâ khách hàng không tồn tại.";
+                serviceResult.Sussess = false;
+                serviceResult.Data = errorMsg;
+                return serviceResult;
             }
         }
         }

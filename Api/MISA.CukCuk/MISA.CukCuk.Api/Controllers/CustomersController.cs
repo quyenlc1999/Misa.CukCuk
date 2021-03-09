@@ -28,7 +28,7 @@ namespace MISA.CukCuk.Api.Controllers
         {
             var customerService = new CustomerService();
             var customers = customerService.getCustomers().ToList();
-            if(customers.Count > 0)
+            if (customers.Count > 0)
             {
                 return StatusCode(200, customers);
             }
@@ -57,12 +57,18 @@ namespace MISA.CukCuk.Api.Controllers
                 return StatusCode(204, customerInsert);
             }
         }
+        /// <summary>
+        /// Sửa thông tin khách hàng vào CSDL  
+        /// </summary>
+        /// <param name="customer">Thực thể khách hàng</param>
+        /// <returns>Trả về mã các mã trạng thái cho client (200-sửa thành công...)</returns>
+        /// CreatedBy: LCQUYEN (28/02/2021)
         [HttpPut]
         public IActionResult PutCustomer(Customer customer)
         {
             var customerService = new CustomerService();
             var customerUpdate = customerService.UpdateCustomer(customer);
-            if(customerUpdate.Sussess == true && customerUpdate.Data != null)
+            if (customerUpdate.Sussess == true && customerUpdate.Data != null)
             {
                 return StatusCode(200, customerUpdate);
             }
@@ -71,5 +77,27 @@ namespace MISA.CukCuk.Api.Controllers
                 return StatusCode(404, customerUpdate);
             }
         }
+        /// <summary>
+        /// Xóa thông tin khách hàng
+        /// </summary>
+        /// <param name="customerId">Thuộc tính khoá chính cho bảng khách hàng</param>
+        /// <returns>Trả về mã các mã trạng thái cho client (200-xóa thành công...) </returns>
+        /// CreatedBy:LCQUYEN(09/03/2021)
+        [HttpDelete]
+        public IActionResult DeleteCustomer(Guid customerId)
+        {
+            var customerService = new CustomerService();
+            var customerDelete = customerService.DeleteCustomer(customerId);
+            if(customerDelete.Sussess == true && customerDelete.Data != null)
+            {
+                return StatusCode(200, customerDelete);
+            }
+            else
+            {
+                return StatusCode(404, customerDelete);
+            }
+        }
+        
+
     }
 }
